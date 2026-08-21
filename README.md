@@ -27,7 +27,7 @@ Xem file `Configuration command lab 1.txt`
 ## 📝 Hướng dẫn cấu hình
 Xem file `Configuration command lab 2.txt`
 ## Topology
-![Network Topology](Topology_lab_2.png)
+![Network Topology](Topology_lab_2.png) 
 
 ## 📁 Files
 - `Lab 2.pkt` - File Packet Tracer
