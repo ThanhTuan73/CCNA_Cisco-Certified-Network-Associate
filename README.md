@@ -8,6 +8,8 @@
 
 ## 📝 Hướng dẫn cấu hình
 Xem file `Configuration command.txt`
+## Topology
+![Network Topology](Topology lab 1.png)
 
 ## 📁 Files
 - `Lab 1.pkt` - File Packet Tracer
