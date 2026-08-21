@@ -9,10 +9,10 @@
 ## 📝 Hướng dẫn cấu hình
 Xem file `Configuration command.txt`
 ## Topology
-![Network Topology](Topology lab 1.png)
+![Network Topology](Topology_lab_1.png)
 
 ## 📁 Files
 - `Lab 1.pkt` - File Packet Tracer
 - `Configuration command lab 1.txt` - Các lệnh cấu hình
-- `Topology lab 1.png` - Sơ đồ mạng
+- `Topology_lab_1.png` - Sơ đồ mạng
 - `Show running-config lab 1.7z` - File cấu hình backup
