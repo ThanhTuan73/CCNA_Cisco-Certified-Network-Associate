@@ -45,7 +45,7 @@ Xem file `Configuration command lab 1.txt`
 - Trên cổng F0/1 của SW1: Cấu hình tĩnh cho phép chỉ một địa chỉ MAC được truy cập, phương thức xử lý vi phạm là shutdown.
 - Trên cổng F0/1 của SW2: Cấu hình cho phép chỉ một địa chỉ MAC được truy cập và địa chỉ này được Switch học tự động sticky, phương thức xử lý vi phạm là restrict.
 
-5.Cấu hình tính năng SPAN
+5. Cấu hình tính năng SPAN
 - Trên SW2 thực hiện cấu hình phân tích lưu lượng mạng cổng F0/1 bằng cách dùng SPAN (Switched Port Analyzer) để gửi bản sao của lưu lượng đến cổng F0/2 của SW2 đã kết nối với một thiết bị giám sát.
 
 ## 📝 Hướng dẫn cấu hình
