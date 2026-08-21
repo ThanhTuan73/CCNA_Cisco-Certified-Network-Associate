@@ -7,7 +7,7 @@
 - Kiểm tra kết nối với ping
 
 ## 📐 Topology
-![Topology](Topology.png)
+![Topology](Topology lab 1.png)
 
 ## 📝 Hướng dẫn cấu hình
 Xem file `Configuration command.txt`
