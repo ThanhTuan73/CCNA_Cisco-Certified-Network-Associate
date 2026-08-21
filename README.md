@@ -1,4 +1,4 @@
-# CCNA-
+# CCNA - Cisco Certified Network Associate
 # Lab 01: VLAN, VTP, EtherChannel, DHCP, EIGRP, Routing, STP, HSRP
 
 ## 🎯 Mục tiêu
