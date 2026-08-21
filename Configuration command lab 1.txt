@@ -1,0 +1,389 @@
+Router 
+enable
+configure terminal
+hostname R
+interface g0/0/0
+ ip address 192.168.100.1 255.255.255.0
+ no shutdown
+ exit
+interface g0/0/1
+ ip address 192.168.101.1 255.255.255.0
+ no shutdown
+ exit
+interface loopback 0
+ ip address 1.1.1.1 255.255.255.0
+ exit
+
+
+SW1
+enable
+configure terminal
+hostname SW1
+vtp domain NTT
+vtp mode server
+ip routing
+vlan 2
+ name VLAN2
+ exit
+vlan 3
+ name VLAN3
+ exit
+vlan 100
+ name VLAN100
+ exit
+vlan 101
+ name VLAN101
+ exit
+
+SW2
+enable
+configure terminal
+hostname SW2
+vtp domain NTT
+vtp mode client
+ip routing
+
+
+show vtp status
+
+
+SW3
+enable
+configure terminal
+hostname SW3
+vtp domain NTT
+vtp mode client
+
+SW4
+enable
+configure terminal
+hostname SW4
+vtp domain NTT
+vtp mode client
+
+
+SW1 <=> SW2 — EtherChannel LACP Po12
+SW1
+configure terminal
+interface range f0/1 - 2
+ switchport trunk encap dot1q
+ switchport mode trunk
+ channel-group 12 mode active
+ no shutdown
+ exit
+interface port-channel 12
+ switchport trunk encap dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 2,3,100,101
+ no shutdown
+ exit
+
+SW2
+configure terminal
+interface range f0/1-2
+ switchport trunk encap dot1q
+ switchport mode trunk
+ channel-group 12 mode active
+ no shutdown
+ exit
+interface port-channel 12
+ switchport trunk encap dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 2,3,100,101
+ no shutdown
+ exit
+
+show etherchannel summary
+
+SW1 <=> SW3 — EtherChannel PAgP Po13
+SW1
+interface range f0/3-4
+ switchport trunk encap dot1q
+ switchport mode trunk
+ channel-group 13 mode desirable
+ no shutdown
+ exit
+interface port-channel 13
+ switchport trunk encap dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 2,3,100,101
+ no shutdown
+ exit
+
+SW3
+interface range g1/0/1-2
+ switchport trunk encap dot1q
+ switchport mode trunk
+ channel-group 13 mode auto
+ no shutdown
+ exit
+interface port-channel 13
+ switchport trunk encap dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 2,3,100,101
+ no shutdown
+ exit
+
+show etherchannel summary
+
+SW2 <=> SW4 — EtherChannel PAgP Po24
+SW2
+interface range f0/3-4
+ switchport trunk encap dot1q
+ switchport mode trunk
+ channel-group 24 mode desirable
+ no shutdown
+ exit
+interface port-channel 24
+ switchport trunk encap dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 2,3,100,101
+ no shutdown
+ exit
+
+SW4
+interface range g1/0/1-2
+ switchport trunk encap dot1q
+ switchport mode trunk
+ channel-group 24 mode auto
+ no shutdown
+ exit
+interface port-channel 24
+ switchport trunk encap dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 2,3,100,101
+ no shutdown
+ exit
+
+=>>> SW1 e0/3 ↔ SW4 e0/3
+=>>> SW2 e0/3 ↔ SW3 e0/3
+
+SW1
+interface f0/5
+ switchport trunk encap dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 2,3,100,101
+ no shutdown
+ exit
+interface g0/1
+ switchport mode access
+ switchport access vlan 100
+ no shutdown
+
+SW2
+interface f0/5
+ switchport trunk encap dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 2,3,100,101
+ no shutdown
+ exit
+interface g0/1
+ switchport mode access
+ switchport access vlan 101
+ no shutdown
+
+SW3
+interface g1/0/4
+ switchport trunk encap dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 2,3,100,101
+ no shutdown
+ exit
+
+SW4
+interface g1/0/4
+ switchport trunk encap dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 2,3,100,101
+ no shutdown
+ exit
+
+
+Cấu hình VLAN cho PC
+SW3 
+interface g1/0/3
+ switchport mode access
+ switchport access vlan 2
+ spanning-tree portfast
+ no shutdown
+ exit
+
+SW4
+interface g1/0/3
+ switchport mode access
+ switchport access vlan 3
+ spanning-tree portfast
+ no shutdown
+ exit
+
+
+CẤU HÌNH PVST+ / STP
+SW1
+enable
+configure terminal
+spanning-tree mode pvst
+spanning-tree vlan 2 root primary
+spanning-tree vlan 3 root secondary
+end
+
+show spanning-tree vlan 2
+
+SW2
+enable
+configure terminal
+spanning-tree mode pvst
+spanning-tree vlan 2 root secondary
+spanning-tree vlan 3 root primary
+end
+
+show spanning-tree vlan 3 
+
+SW3
+enable
+configure terminal
+spanning-tree mode pvst
+end
+
+SW4
+enable
+configure terminal
+spanning-tree mode pvst
+end
+
+
+CẤU HÌNH IP CHO SW1, SW2 VÀ ROUTER
+SW1
+enable
+configure terminal
+ip routing
+interface vlan 2
+ ip address 192.168.2.1 255.255.255.0
+ no shutdown
+ exit
+interface vlan 3
+ ip address 192.168.3.1 255.255.255.0
+ no shutdown
+ exit
+interface vlan 100
+ ip address 192.168.100.2 255.255.255.0
+ no shutdown
+ exit
+
+
+SW2
+enable
+configure terminal
+ip routing
+interface vlan 2
+ ip address 192.168.2.2 255.255.255.0
+ no shutdown
+ exit
+interface vlan 3
+ ip address 192.168.3.2 255.255.255.0
+ no shutdown
+ exit
+interface vlan 101
+ ip address 192.168.101.2 255.255.255.0
+ no shutdown
+ exit
+
+CẤU HÌNH EIGRP
+Router 
+router eigrp 100
+ network 1.1.1.0 0.0.0.255
+ network 192.168.100.0 0.0.0.255
+ network 192.168.101.0 0.0.0.255
+ no auto-summary
+ exit
+show ip route
+
+SW1
+router eigrp 100
+ network 192.168.2.0 0.0.0.255
+ network 192.168.3.0 0.0.0.255
+ network 192.168.100.0 0.0.0.255
+ no auto-summary
+ exit
+show ip eigrp neighbors
+
+
+SW2
+router eigrp 100
+ network 192.168.2.0 0.0.0.255
+ network 192.168.3.0 0.0.0.255
+ network 192.168.101.0 0.0.0.255
+ no auto-summary
+ exit
+show ip eigrp neighbors
+
+=>>>>>>>> tới đây đã ping đc 
+
+CẤU HÌNH HSRP
+SW1
+interface vlan 2
+ standby 2 ip 192.168.2.254
+ standby 2 priority 110
+ standby 2 preempt
+ exit
+interface vlan 3
+ standby 3 ip 192.168.3.254
+ standby 3 priority 90
+ standby 3 preempt
+ exit
+show standby brief
+
+
+SW2
+interface vlan 2
+ standby 2 ip 192.168.2.254
+ standby 2 priority 90
+ standby 2 preempt
+ exit
+interface vlan 3
+ standby 3 ip 192.168.3.254
+ standby 3 priority 110
+ standby 3 preempt
+ exit
+show standby brief
+
+
+CẤU HÌNH DHCP SERVER TRÊN Router
+ip dhcp excluded-address 192.168.2.1
+ip dhcp excluded-address 192.168.2.2
+ip dhcp excluded-address 192.168.2.254
+
+ip dhcp excluded-address 192.168.3.1
+ip dhcp excluded-address 192.168.3.2
+ip dhcp excluded-address 192.168.3.254
+ip dhcp pool VLAN2
+ network 192.168.2.0 255.255.255.0
+ default-router 192.168.2.254
+ dns-server 1.1.1.1
+ exit
+
+ip dhcp pool VLAN3
+ network 192.168.3.0 255.255.255.0
+ default-router 192.168.3.254
+ dns-server 1.1.1.1
+ exit
+
+SW1
+interface vlan 2
+ ip helper-address 192.168.100.1
+ exit
+interface vlan 3
+ ip helper-address 192.168.101.1
+ exit
+
+
+SW2
+interface vlan 2
+ ip helper-address 192.168.101.1
+ exit
+interface vlan 3
+ ip helper-address 192.168.101.1
+ exit
+
+LƯU Ý:
+Nếu lỗi ping từ Host sang Router thì dùng lệnh 
+no ip cef trên SW1 và SW2
