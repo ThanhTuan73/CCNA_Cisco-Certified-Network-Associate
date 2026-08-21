@@ -28,9 +28,25 @@ Xem file `Configuration command lab 1.txt`
 
 # Lab 02: Port Security, SPAN
 ## 🎯 Mục tiêu
-- Cấu hình các vấn đề đã đề cập 
-- Thiết lập địa chỉ IP
-- Kiểm tra kết nối với ping và hoạt động
+1. Cấu hình trunking:
+- Cấu hình tất cả các đường nối giữa các switch thành các đường trunk -Dot1Q.
+- Các đường trunk này phải được thiết lập tĩnh và tắt DTP.
+
+2. Cấu hình VTP:
+- Domain name: NTT.
+- SW1: Server; SW2, SW3: Client.
+- Trên SW1, tạo VLAN 10, 20. Kiểm tra rằng các VLAN này đã lan truyền đến được tất cả các switch.
+
+3. Cấu hình STP:
+- VLAN 10: SW1 làm Root switch, SW2 làm backup Root.
+- VLAN 20: SW2 làm Root switch, SW1 làm backup Root.
+
+4. Cấu hình tính năng Port – security:
+- Trên cổng F0/1 của SW1: Cấu hình tĩnh cho phép chỉ một địa chỉ MAC được truy cập, phương thức xử lý vi phạm là shutdown.
+- Trên cổng F0/1 của SW2: Cấu hình cho phép chỉ một địa chỉ MAC được truy cập và địa chỉ này được Switch học tự động sticky, phương thức xử lý vi phạm là restrict.
+
+5.Cấu hình tính năng SPAN
+- Trên SW2 thực hiện cấu hình phân tích lưu lượng mạng cổng F0/1 bằng cách dùng SPAN (Switched Port Analyzer) để gửi bản sao của lưu lượng đến cổng F0/2 của SW2 đã kết nối với một thiết bị giám sát.
 
 ## 📝 Hướng dẫn cấu hình
 Xem file `Configuration command lab 2.txt`
