@@ -15,5 +15,5 @@ Xem file `Configuration command.txt`
 ## 📁 Files
 - `Lab 1.pkt` - File Packet Tracer
 - `Configuration command lab 1.txt` - Các lệnh cấu hình
-- `Topology.png` - Sơ đồ mạng
-- `Show running-config.7z` - File cấu hình backup
+- `Topology lab 1.png` - Sơ đồ mạng
+- `Show running-config lab 1.7z` - File cấu hình backup
