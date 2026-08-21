@@ -2,7 +2,7 @@
 # Lab 01: VLAN, VTP, EtherChannel, DHCP, EIGRP, Routing, STP, HSRP
 
 ## 🎯 Mục tiêu
-- Cấu hình các vấn đề đã đề cập
+- Cấu hình các vấn đề đã đề cập 
 - Thiết lập địa chỉ IP
 - Kiểm tra kết nối với ping
 
